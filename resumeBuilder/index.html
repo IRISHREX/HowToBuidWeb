@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Resume Maker</title>
+ <style>
+  /* styling for the main container */
+  #resume-container {
+   display: flex;
+   flex-wrap: wrap;
+   width: 800px;
+   margin: 0 auto;
+   border: 1px solid black;
+   padding: 10px;
+  }
+/* styling for the individual columns */
+ .resume-column {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  border: 1px solid black;
+  margin: 10px;
+  padding: 10px;
+ }
+ 
+ /* styling for the column headers */
+ .resume-column h3 {
+  margin: 0;
+  font-weight: bold;
+ }
+ 
+ /* styling for the column entries */
+ .resume-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+ }
+ 
+ /* styling for the buttons */
+ .resume-button {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+ }
+ 
+ /* styling for the colour picker */
+ #colour-picker {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+ }
+ 
+ /* dark mode styling */
+ #resume-container.dark-mode {
+  background-color: black;
+  color: white;
+ }
+ #resume-container.dark-mode .resume-column {
+  border-color: white;
+ }
+ 
+ /* danger mode styling */
+ .resume-column.danger-mode {
+  background-color: red;
+  color: white;
+ }
+</style>
+</head>
+<body>
+ <!-- main container for the resume columns -->
+ <div id="resume-container">
+  <!-- template for the resume columns -->
+  <div class="resume-column" id="template-column">
+   <h3 class="column-header">Column Title</h3>
+   <ul class="column-entries">
+    <li>Entry 1</li>
+    <li>Entry 2</li>
+    <li>Entry 3</li>
+   </ul>
+  </div>
+ </div>
+<!-- buttons for adding and deleting columns -->
+<button class="resume-button" id="add-column-button">Add Column</button>
+<button class="resume-button" id="delete-column-button">Delete Column</button>
+<!-- update button for updating column entries -->
+<button class="resume-button" id="update-button">Update</button>
+
+<!-- dark mode button for changing the theme to dark mode -->
+<button class="resume-button" id="dark-mode-button">Dark Mode</button>
+
+<!-- danger mode button for changing the theme to danger mode -->
+<button class="resume-button" id="danger-mode-button">Danger Mode</button>
+
+<!-- colour picker for changing the background colour of the columns -->
+<label for="colour-picker">Choose Column Colour:</label>
+<input type="color" id="colour-picker">
+
+<!-- javascript for adding and deleting columns and changing the colour -->
+<script>
+ // get the template column and buttons
+ var templateColumn = document.getElementById('template-column');
+ var addColumnButton = document.getElementById('add-column-button');
+ var deleteColumnButton = document.getElementById('delete-column-button');
+ var colourPicker = document.getElementById('colour-picker');
+ 
+ // get the main container
+ var resumeContainer = document.getElementById('resume-container');
+ 
+ // add event listener for adding columns
+ addColumnButton.addEventListener('click', function() {
+  // clone the template column and add it to the container
+  var newColumn = templateColumn.cloneNode(true);
+  resumeContainer.appendChild(newColumn);
+ });
+ 
+ // add event listener for deleting columns
+ deleteColumnButton.addEventListener('click', function() {
+  // get all the resume columns
+  var resumeColumns = document.querySelectorAll('.resume-column');
+  // only delete if there is more than one column
+  if (resumeColumns.length > 1) {
+   resumeContainer.removeChild(resumeColumns[resumeColumns.length-1]);
+  }
+ });
+ 
+ // add event listener for changing the column colour
+ colourPicker.addEventListener('change', function() {
+  // get the selected colour
+  var selectedColour = this.value;
+  // set the background colour of all the resume columns to the selected colour
+  var resumeColumns = document.querySelectorAll('.resume-column');
+  resumeColumns.forEach(function(column) {
+   column.style.backgroundColor = selectedColour;
+  });
+ });
+ 
+ // add event listener for the update button
+ var updateButton = document.getElementById('update-button');
+ updateButton.addEventListener('click', function() {
+  // get all the input fields
+  var inputFields = document.querySelectorAll('input');
+  // loop through the input fields and update the corresponding column entry
+  inputFields.forEach(function(inputField) {
+   var columnIndex = inputField.getAttribute('data-column');
+var entryIndex = inputField.getAttribute('data-entry');
+var resumeColumns = document.querySelectorAll('.resume-column');
+resumeColumns[columnIndex].querySelectorAll('li')[entryIndex].textContent = inputField.value;
+});
+});
+// add event listener for the dark mode button
+ var darkModeButton = document.getElementById('dark-mode-button');
+ darkModeButton.addEventListener('click', function() {
+  // get the main container and toggle the dark mode class
+  resumeContainer.classList.toggle('dark-mode');
+ });
+ 
+ // add event listener for the danger mode button
+ var dangerModeButton = document.getElementById('danger-mode-button');
+ dangerModeButton.addEventListener('click', function() {
+  // get all the resume columns and toggle the danger mode class
+  var resumeColumns = document.querySelectorAll('.resume-column');
+  resumeColumns.forEach(function(column) {
+   column.classList.toggle('danger-mode');
+  });
+ });
+</script>
+</body>
+</html>
