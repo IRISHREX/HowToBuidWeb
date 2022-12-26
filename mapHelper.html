@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON Comparison</title>
+  <style>
+    body {
+      background-color: #282a36;
+      color: #f8f8f2;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    h1 {
+      font-size: 2em;
+      text-align: center;
+      text-transform: uppercase;
+      color: #8be9fd;
+    }
+
+    button {
+      background-color: #6272a4;
+      border: none;
+      color: #f8f8f2;
+      padding: 0.75em 1.5em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #44475a;
+    }
+
+    .cyberpunk {
+      background-image: linear-gradient(to right, #282a36, #6272a4);
+      background-size: cover;
+      background-position: center;
+      color: #f8f8f2;
+      padding: 1em;
+      border-radius: 0.25em;
+    }
+  </style>
+</head>
+<body>
+  <h1>JSON Comparison</h1>
+  <p class="cyberpunk">Enter the values for json1 and json2 in the prompts below:</p>
+  <button id="testButton">Test</button>
+  <p id="testCount"></p>
+  <p id="json1"></p>
+  <p id="json2"></p>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+    let testCount = 0;
+    const testButton = document.getElementById('testButton');
+    const testCountElement = document.getElementById('testCount');
+    const json1Element = document.getElementById('json1');
+    const json2Element = document.getElementById('json2');
+  
+    testButton.addEventListener('click', () => {
+      testCount++;
+      testCountElement.innerHTML = `Test count: ${testCount}`;
+  
+      let json1, json2;
+      try {
+        json1 = prompt('Enter the value for json1:');
+        if (json1 === null) {
+          throw new Error('json1 is null');
+        }
+        json2 = prompt('Enter the value for json2:');
+        if (json2 === null) {
+          throw new Error('json2 is null');
+        }
+      } catch (error) {
+        console.error(error.message);
+        return;
+      }
+  
+      json1Element.innerHTML = `json1: ${json1}`;
+      json2Element.innerHTML = `json2: ${json2}`;
+  
+      let object1, object2;
+      try {
+        object1 = JSON.parse(json1);
+        object2 = JSON.parse(json2);
+      } catch (error) {
+        alert('Error parsing JSON:', error);
+        return;
+      }
+  
+      if (_.isEqual(object1, object2)) {
+        alert('The objects have the same values.');
+      } else {
+        alert('The objects have different values.');
+      }
+    });
+  </script>
+  
+</body>
+</html>
